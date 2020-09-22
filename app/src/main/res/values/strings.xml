@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Assignment</string>
+    <string name="display_name">Weather Forecast</string>
+    <string name="degreecelcius">\u2103</string>
+</resources>
