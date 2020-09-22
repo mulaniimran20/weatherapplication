@@ -96,12 +96,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return wheatherData;
     }
 
-    public int getWeatherCount(String  currentDate) {
+    public int getWeatherCount(String lastdate) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(WheatherData.TABLE_NAME,
-                new String[]{WheatherData.COLUMN_ID, WheatherData.COLUMN_CITYNAME, WheatherData.COLUMN_DATE, WheatherData.COLUMN_SUNRISE_TIME, WheatherData.COLUMN_SUNSET_TIME, WheatherData.COLUMN_WEATHER_CONDITIONS, WheatherData.COLUMN_WEATHER_CONDITIONS_ICON, WheatherData.COLUMN_TEMPRATURE, WheatherData.COLUMN_MINIMUM_TEMPRATURE, WheatherData.COLUMN_MAXIMUM_TEMPRATURE},
-                WheatherData.COLUMN_DATE +" =?",
-                new String[]{currentDate}, null, null, null, null);
+
+        String rawQuery = "select * from " +
+                WheatherData.TABLE_NAME + " where " + WheatherData.COLUMN_DATE + " = '"+lastdate + "'";
+
+        Cursor cursor = db.rawQuery(rawQuery, null);
 
         int count = cursor.getCount();
         cursor.close();
@@ -113,8 +114,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteWeatherData(String lastDate) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(WheatherData.TABLE_NAME, WheatherData.COLUMN_DATE + " = ?",
-                new String[]{lastDate});
+        String rawQuery = "delete from " +
+                WheatherData.TABLE_NAME + " where " + WheatherData.COLUMN_DATE + " = '"+lastDate + "'";
+        System.out.println(rawQuery);
+        db.execSQL(rawQuery);
         db.close();
     }
 }

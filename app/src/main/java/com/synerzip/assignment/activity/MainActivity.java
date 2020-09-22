@@ -28,10 +28,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Date;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
@@ -76,7 +77,15 @@ public class MainActivity extends AppCompatActivity {
 
         mDatabaseHelper = new DatabaseHelper(this);
 
+        DateFormat dateFormatLastDate = new SimpleDateFormat("dd/MM/yyyy");
+        final Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        String lastDayDate = dateFormatLastDate.format(cal.getTime());
+        mDatabaseHelper.deleteWeatherData(lastDayDate);
+
         mWheatherData = MyApplication.component.wheatherData();
+        System.out.println(mDatabaseHelper.getWeatherCount(lastDayDate));
+
 
 
 
